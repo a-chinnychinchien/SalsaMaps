@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* Type Checking */
+    "strict": true,                         /* Enable all strict type-checking options for robust code. */
+    "esModuleInterop": true,                /* Important for proper handling of CommonJS modules (like Express) when importing in ES module syntax. */
+    "skipLibCheck": true,                   /* Speeds up compilation by skipping type checks on definition files in node_modules. */
+    "forceConsistentCasingInFileNames": true, /* Prevents potential errors on case-insensitive file systems. */
+
+    /* Modules */
+    "module": "CommonJS",                   /* Specifies the module format to output (Node.js default). */
+    "target": "ES2024",                     /* UPDATED: Targets a very recent ECMAScript version compatible with modern Node.js for smaller, cleaner output. */
+    "moduleResolution": "node",             /* Instructs TypeScript to resolve module imports using Node.js logic. */
+    "outDir": "./dist",                     /* The output directory for the compiled JavaScript files (matching your package.json 'main'). */
+    "rootDir": "./src",                     /* The root directory containing your original TypeScript source files. */
+
+    /* Output and Source Maps */
+    "sourceMap": true,                      /* Generates '.map' files for debugging the original TS code in Node. */
+    "removeComments": true                  /* Removes comments from the compiled JavaScript output. */
+  },
+  "include": ["src/**/*"],                  /* Tells the compiler to only look for files in the 'src' directory. */
+  "exclude": ["node_modules"]               /* Explicitly ignores files in the node_modules folder. */
+}
+

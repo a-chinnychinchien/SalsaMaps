@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express';
-import { Client } from 'pg'; 
+import { Client } from 'pg';
+import 'dotenv/config';
 
 // Define various constants
 const PORT = 3000;
 // const PORT = process.env.PORT || 3000;
-const SUPABASE_DB_URL = 'postgresql://postgres.drndguuclhnlmmgzsrrt:qD.X%$e89jW4+a.@aws-1-us-east-2.pooler.supabase.com:6543/postgres'
 const TABLE_NAME = 'testing';
 
 // Setup app and DB
 const app = express();
 const dbClient = new Client({
-    connectionString: SUPABASE_DB_URL,
+    connectionString: process.env.SUPABASE_DB_URL,
 });
 // Middleware
 app.use(express.json());

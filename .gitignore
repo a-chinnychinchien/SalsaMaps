@@ -1,2 +1,6 @@
+# Build/production level files
 node_modules
 dist
+
+# Environment variables, which may contain sensitive info like passwords
+.env

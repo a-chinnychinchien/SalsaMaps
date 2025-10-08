@@ -3,8 +3,7 @@ import { Client } from 'pg';
 import 'dotenv/config';
 
 // Define various constants
-const PORT = 3000;
-// const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const TABLE_NAME = 'testing';
 
 // Setup app and DB

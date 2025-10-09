@@ -1,14 +1,18 @@
+/**
+ * Config file for PlayWright E2E integration tests.
+ * Run tests via: `npx playwright test`
+ */
+
 import { defineConfig } from '@playwright/test';
 import 'dotenv/config';
 
 const serverAddress=`http://localhost:${process.env.PORT}`;
 
 export default defineConfig({
-  testDir: './tests', // Location of your test files
+  testDir: './tests',
 
   use: {
-    // Playwright will automatically prefix all test calls with this URL
-    baseURL: serverAddress, 
+    baseURL: serverAddress, // test routes are prefixed with `baseURL`
     trace: 'on-first-retry',
   },
 
@@ -21,5 +25,3 @@ export default defineConfig({
   //   reuseExistingServer: false,
   // },
 });
-
-//Run tests via: `npx playwright test`

@@ -60,7 +60,7 @@ export function setupTestingRoutes(dbClient: Client, table_name: string): Router
                  {
                     const { title } = req.body;
                     
-                    // Runtime Validation
+                    // Check title validity
                     if (!title || typeof title != "string") {
                         const currentTitle = JSON.stringify(title)
                         return res.status(400).json({ error: `Title must be a string. Recieved ${currentTitle}, which is invalid`});
@@ -85,6 +85,28 @@ export function setupTestingRoutes(dbClient: Client, table_name: string): Router
                     }
                  }
     );
+
+    router.delete('/api/testing/:id', 
+                  async (req: Request<{id: string} >, res: Response<{id: number} | DB_ErrorResponse>) => {
+        const id = parseInt(req.params.id, 10);
+        if (isNaN(id)) {
+            return res.status(400).json({error: `Processed id is not an integer: ${req.params.id}`});
+        }
+
+        try {
+            const queryText = `
+                                DELETE FROM ${table_name}
+                                WHERE id = ($1)
+                                RETURNING id;
+                              `;
+            const result = await dbClient.query(queryText, [id]);
+            return res.status(200).json(result.rows[0]);
+        }
+        catch (dbError) {
+            return res.status(401).json({error: `Failed to delete ${id} in the database.`,
+                                         details: (dbError as Error).message})
+        }
+    });
 
     return router;
 }

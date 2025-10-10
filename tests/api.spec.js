@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// Define the name of the endpoint being tested, baseURL is prepended.
+// Define the name of the endpoint being tested, baseURL (from PlayWright config) is prepended.
 const endpointURL = `/api/testing`; 
         
 test.describe('API Endpoint: /api/testing', () => {
@@ -68,5 +68,34 @@ test.describe('API Endpoint: /api/testing', () => {
 
         expect(foundItem).toBeDefined();
         expect(foundItem.title).toBe(knownTitle);
+    });
+
+    /**
+     * Test DELETE
+     * 1. Works correctly with correct input/DB state
+     * 2. Fails with improper input
+     */
+    // 1
+    test('Delete existing entry in DB with proper return status', async ({ request }) => {
+        // Insert a known entry (depends on PUT working)
+        const knownTitle = `TO BE DELETED - ${Date.now()}`;
+        const postResponse = await request.post(endpointURL, {
+            data: { title: knownTitle },
+        });
+        expect(postResponse.status()).toBe(201);
+        const createdItem = await postResponse.json();
+        const knownID = createdItem.id;
+
+        const delResponse = await request.delete(`${endpointURL}/${knownID}`);
+        const parsedResponse = await delResponse.json();
+        expect(delResponse.status()).toBe(200);
+        expect(parsedResponse.id).toBe(knownID);
+    });
+
+    // 2
+    test('Delete returns expected failures when input is incorrect', async ({ request }) => {
+        const badID = 'abd';
+        const delResponse = await request.delete(`${endpointURL}/${badID}`);
+        expect(delResponse.status()).toBe(400);
     });
 });

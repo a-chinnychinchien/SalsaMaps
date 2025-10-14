@@ -9,7 +9,7 @@ test.describe('API Endpoint: /api/testing', () => {
      * Test successful POST
      */
     test('should successfully create a new item and return 201 status', async ({ request }) => {
-        const uniqueTitle = `Playwright E2E POST Test - ${Date.now()}`;
+        const uniqueTitle = `POST Test - ${Date.now()}`;
 
         const postResponse = await request.post(endpointURL, {
             data: { title: uniqueTitle },
@@ -97,5 +97,70 @@ test.describe('API Endpoint: /api/testing', () => {
         const badID = 'abd';
         const delResponse = await request.delete(`${endpointURL}/${badID}`);
         expect(delResponse.status()).toBe(400);
+    });
+
+    /**
+     * Test PUT
+     * 1. Works correctly
+     * 2. Fails with improper input, missing entry
+     */
+    // 1
+    test('PUT modifies existing entry correctly', async ({request}) => {
+        // Create known entry
+        const knownTitle = `PUT test - ${Date.now()}`;
+        const postResponse = await request.post(endpointURL, 
+                                                {data: { title: knownTitle }}
+                                               );
+        expect(postResponse.status()).toBe(201);
+        const createdItem = await postResponse.json();
+        const knownID = createdItem.id;
+
+        // Test put query
+        const new_title = `new PUT - ${Date.now()}`
+        const putResponse = await request.put(`${endpointURL}/${knownID}`, 
+                                              { data: { title: new_title}}
+                                             );
+        const parsedResponse = await putResponse.json()
+        // console.log(parsedResponse.error);
+        // console.log(parsedResponse.details);
+        expect(putResponse.status()).toBe(200);
+        expect(parsedResponse.id).toBe(knownID);
+        expect(parsedResponse.title).toBe(new_title);
+    });
+    // 2
+    test('PUT fails with missing payload', async ({request}) => {
+        // Create known entry
+        const knownTitle = `PUT test2 - ${Date.now()}`;
+        const postResponse = await request.post(endpointURL, 
+                                                {data: { title: knownTitle }}
+                                               );
+        expect(postResponse.status()).toBe(201);
+        const createdItem = await postResponse.json();
+        const knownID = createdItem.id;
+
+        // PUT with no payload
+        const putResponse = await request.put(`${endpointURL}/${knownID}`);
+        expect(putResponse.status()).toBe(500);
+    });
+
+    test('PUT errors when trying to modify non-existing entry', async ({request}) => {
+        // Create and delete entry
+        const knownTitle = `PUT test3 - ${Date.now()}`;
+        const postResponse = await request.post(endpointURL, 
+                                                {data: { title: knownTitle }}
+                                               );
+        expect(postResponse.status()).toBe(201);
+        const createdItem = await postResponse.json();
+        const knownId = createdItem.id;
+
+        const delResponse = await request.delete(`${endpointURL}/${knownId}`);
+        expect(delResponse.status()).toBe(200);
+        
+        // Test PUT on a non-entry
+        const newTitle = 'fake';
+        const putResponse = await request.put(`${endpointURL}/${knownId}`, 
+                                              { data: { title: newTitle}}
+                                             );
+        expect(putResponse.status()).toBe(401);
     });
 });

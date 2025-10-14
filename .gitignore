@@ -1,7 +1,12 @@
+### Express server ignores
+
 # Build/test result/production files
-node_modules
-dist
-test-results
+express_server/node_modules
+express_server/dist
+express_server/test-results
 
 # Environment variables, which may contain sensitive info like passwords
-.env
+express_server/.env
+
+
+### Flutter frontend ignores

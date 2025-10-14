@@ -14,7 +14,7 @@ interface Testing_RequestBody {
     title: string;
 }
 
-interface Testing_Entry {
+interface Event_Entry {
     id: number;
     title: string;
     inserted_at: string;
@@ -55,8 +55,8 @@ export function setupTestingRoutes(dbClient: Client, table_name: string): Router
 
     // --- POST /testing (Create New) ---
     router.post('/api/testing', 
-                 async (req: Request<{}, Testing_Entry, Testing_RequestBody>, 
-                        res: Response<Testing_Entry | DB_ErrorResponse>) => 
+                 async (req: Request<{}, Event_Entry, Testing_RequestBody>, 
+                        res: Response<Event_Entry | DB_ErrorResponse>) => 
                  {
                     const { title } = req.body;
                     
@@ -105,6 +105,36 @@ export function setupTestingRoutes(dbClient: Client, table_name: string): Router
         catch (dbError) {
             return res.status(401).json({error: `Failed to delete ${id} in the database.`,
                                          details: (dbError as Error).message})
+        }
+    });
+
+
+    router.put('/api/testing/:id', async(req: Request<{id: string}, Event_Entry, Testing_RequestBody>, 
+                                         res: Response<Event_Entry | DB_ErrorResponse>) => {
+        const eventID = parseInt(req.params.id);
+
+        if (isNaN(eventID)) {
+            return res.status(400).json({error: `Improper ID passed to PUT query: ${eventID}`});
+        }
+
+        try {
+            const queryText = `UPDATE ${table_name}
+                               SET title = $1, updated_at = NOW()
+                               WHERE id = $2
+                               RETURNING *`
+            const values = [req.body.title, eventID];
+            const putResponse = await dbClient.query(queryText, values);
+            
+            if (putResponse.rowCount == 0){
+                return res.status(401).json({error: `Entry with id ${eventID} not found in DB.`})
+            }
+
+            return res.status(200).json(putResponse.rows[0]);
+        }
+        catch (dbError) {
+            return res.status(500).json({error: 'PUT query failed',
+                                         details: (dbError as Error).message
+            })
         }
     });
 

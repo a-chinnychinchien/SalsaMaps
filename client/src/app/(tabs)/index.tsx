@@ -1,15 +1,13 @@
-import { AppleMaps, GoogleMaps } from 'expo-maps';
-import { Platform, Text } from 'react-native';
+import myMapView from '../../components/myMapView';
 
 export default function App() {
-  if (Platform.OS === 'ios') {
-    return <AppleMaps.View style={{ flex: 1 }} />;
-  } else if (Platform.OS === 'android') {
-    return <GoogleMaps.View style={{ flex: 1 }} />;
-  } else {
-    return <Text>Maps are only available on Android and iOS</Text>;
-  }
+  return myMapView();
 }
+
+
+//
+// react-native-maps try
+//
 
 // import { Text, StyleSheet, View } from "react-native";
 // import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';

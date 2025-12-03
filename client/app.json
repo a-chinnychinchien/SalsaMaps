@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.client"
+      "bundleIdentifier": "com.friendzone.salsamaps"
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +20,13 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.friendzone.salsamaps",
+      "config": {
+        "googleMaps": {
+          "apiKey": "process.env.EXPO_PUBLIC_ANDROID_GOOGLE_MAPS_API_KEY"
+        }
+      }
     },
     "web": {
       "output": "static",
@@ -39,11 +45,31 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      // [
+      //   "react-native-maps",
+      //   {
+      //     "androidGoogleMapsApiKey": "process.env.EXPO_PUBLIC_ANDROID_GOOGLE_MAPS_API_KEY"
+      //   }
+      // ],
+      [
+        "expo-maps",
+        {
+          "requestLocationPermission": true,
+          "locationPermission": "Allow SalsaMaps to use your location"
+        }
+      ],
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b6577ea9-77c5-4bb7-abbb-bcb85ce6a397"
+      }
+    },
+    "owner": "icer88"
   }
 }

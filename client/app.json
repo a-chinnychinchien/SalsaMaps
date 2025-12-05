@@ -59,6 +59,12 @@
           "locationPermission": "Allow SalsaMaps to use your location"
         }
       ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow SalsaMaps to use your location."
+        }
+      ],
     ],
     "experiments": {
       "typedRoutes": true,

@@ -1,7 +1,7 @@
-import myMapView from '../../components/myMapView';
+import MyMapView from "@/src/components/MyMapView";
 
 export default function App() {
-  return myMapView();
+  return MyMapView();
 }
 
 

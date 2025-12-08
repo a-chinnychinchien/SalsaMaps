@@ -1,7 +1,8 @@
 import MyMapView from "@/src/components/MyMapView";
+import { SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 export default function App() {
-  return MyMapView();
+  return <MyMapView/>;
 }
 
 

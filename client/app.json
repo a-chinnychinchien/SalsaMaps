@@ -62,7 +62,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow SalsaMaps to use your location."
+          "locationWhenInUsePermission": "Allow SalsaMaps to use your location whenin foreground."
         }
       ],
     ],

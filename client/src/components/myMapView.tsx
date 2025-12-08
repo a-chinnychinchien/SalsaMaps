@@ -16,11 +16,7 @@ type AppleMapMarker = {
 }
 
 async function getCurrMarkers(): Promise<AppleMapMarker[]> {
-  let currMarkers:AppleMapMarker[] = [{
-          coordinates: { latitude: 40.68666348121151, longitude: -73.9676898608171 },
-          title: 'Initial',
-          id: '-1',
-        }]
+  let currMarkers:AppleMapMarker[] = []
   
   for (let i=0;i<currEvents.length;i++) {
     const currEvent = currEvents[i];
@@ -36,13 +32,15 @@ async function getCurrMarkers(): Promise<AppleMapMarker[]> {
   return currMarkers
 } 
 
-export default function MyMapView(): React.JSX.Element {
+export default function MyMapView({initialLoc} : {initialLoc: Location.LocationObject}): React.JSX.Element {
   // Obtain markers
   let [markers, setMarkers] = useState<AppleMapMarker[]>([])
   useEffect(()=>{
     async function loadMarkers(){
       const markers = await getCurrMarkers();
       setMarkers(markers);
+      const debug = await Location.hasServicesEnabledAsync();
+      console.log(debug);
     }
     loadMarkers();
   },[]);
@@ -65,7 +63,7 @@ export default function MyMapView(): React.JSX.Element {
         markers={markers}
         onMarkerClick={present}
         cameraPosition={{
-          coordinates: { latitude: 40.68666348121151, longitude: -73.9676898608171 },
+          coordinates:{latitude: initialLoc.coords.latitude, longitude: initialLoc.coords.longitude},
           zoom: 12
         }}
       />

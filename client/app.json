@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.friendzone.salsamaps"
+      "bundleIdentifier": "com.friendzone.salsamaps",
+      // "infoPlist": {
+      //   "NSLocationAlwaysAndWhenInUseUsageDescription": "The CNG did not work so I have to add it manually to infoPlist"
+      // }
     },
     "android": {
       "adaptiveIcon": {
@@ -46,12 +49,6 @@
           }
         }
       ],
-      // [
-      //   "react-native-maps",
-      //   {
-      //     "androidGoogleMapsApiKey": "process.env.EXPO_PUBLIC_ANDROID_GOOGLE_MAPS_API_KEY"
-      //   }
-      // ],
       [
         "expo-maps",
         {

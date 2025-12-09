@@ -1,11 +1,10 @@
-import { StyleSheet, Platform, Text, View, Button, Modal, Pressable } from 'react-native';
+import { Platform, Text } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import { IOS, ANDROID } from '../constants/constants';
 import * as Location from 'expo-location';
 import { TrueSheet } from "@lodev09/react-native-true-sheet"
-import { SalsaEvent, currEvents } from '../testing_data/events'
+import { currEvents } from '../testing_data/events'
 import { AppleMaps, GoogleMaps } from 'expo-maps';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import {EventSheet} from './EventSheet'
 
 type AppleMapMarker = {

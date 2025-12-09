@@ -1,5 +1,4 @@
 import MyMapView from "@/src/components/MyMapView";
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 import { Text } from 'react-native'

@@ -6,6 +6,7 @@ import { TrueSheet } from "@lodev09/react-native-true-sheet"
 import { SalsaEvent, currEvents } from '../testing_data/events'
 import { AppleMaps, GoogleMaps } from 'expo-maps';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import {EventSheet} from './EventSheet'
 
 type AppleMapMarker = {
   coordinates: {latitude: number, longitude: number}
@@ -44,14 +45,10 @@ export default function MyMapView({initialLoc} : {initialLoc: Location.LocationO
   },[]);
 
   // Bottom Sheet setup
-  const sheet = useRef<TrueSheet>(null);
+  const sheetRef = useRef<TrueSheet>(null);
   const present = async () => {
-    await sheet.current?.present()
+    await sheetRef.current?.present()
     console.log('horray! sheet has been presented')
-  }
-  const dismiss = async () => {
-    await sheet.current?.dismiss()
-    console.log('Bye bye 👋')
   }
 
   if (Platform.OS === IOS) {
@@ -65,16 +62,7 @@ export default function MyMapView({initialLoc} : {initialLoc: Location.LocationO
           zoom: 12
         }}
       />
-      <TrueSheet
-        ref={sheet}
-        detents={[0.5, 0.8]}
-        cornerRadius={24}
-        backgroundColor='rgba(52, 52, 52, 0.8)'
-        name='SalaEventInfoSheet'>
-          <Pressable onPress={dismiss} style={styles.dismissButton}>
-            <Text style={styles.dismissText}> Dismissal Button</Text>
-          </Pressable>
-      </TrueSheet>
+      <EventSheet ref={sheetRef}/>
     </>
   } else if (Platform.OS === ANDROID) {
     return <GoogleMaps.View style={{ flex: 1 }} />;
@@ -82,17 +70,3 @@ export default function MyMapView({initialLoc} : {initialLoc: Location.LocationO
     return <Text>Maps are only available on Android and iOS</Text>;
   }
 }
-
-const styles = StyleSheet.create({
-    dismissButton: {
-        padding: 15,
-        backgroundColor: '#007AFF', // Standard iOS blue
-        borderRadius: 8,
-        justifyContent: 'center',
-        margin: 20, // Add margin to ensure it's not hidden by the edge
-    },
-    dismissText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-});

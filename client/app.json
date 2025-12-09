@@ -11,9 +11,6 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.friendzone.salsamaps",
-      // "infoPlist": {
-      //   "NSLocationAlwaysAndWhenInUseUsageDescription": "The CNG did not work so I have to add it manually to infoPlist"
-      // }
     },
     "android": {
       "adaptiveIcon": {

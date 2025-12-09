@@ -39,8 +39,6 @@ export default function MyMapView({initialLoc} : {initialLoc: Location.LocationO
     async function loadMarkers(){
       const markers = await getCurrMarkers();
       setMarkers(markers);
-      const debug = await Location.hasServicesEnabledAsync();
-      console.log(debug);
     }
     loadMarkers();
   },[]);
